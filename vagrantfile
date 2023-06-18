@@ -1,0 +1,56 @@
+VAGRANTFILE_API_VERSION = 2
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Используем один и тот же ключ для всех машин
+  config.ssh.insert_key = false
+  
+  config.vm.define "wordpress1" do |wordpress1|
+    wordpress1.vm.box = "ubuntu/focal64"
+    wordpress1.vm.box_check_update = false
+    wordpress1.vm.hostname = "wordpress1"
+    wordpress1.vm.network "private_network", ip: "192.168.56.11"
+  end
+  
+  config.vm.define "wordpress2" do |wordpress2|
+    wordpress2.vm.box = "ubuntu/focal64"
+    wordpress2.vm.box_check_update = false
+    wordpress2.vm.hostname = "wordpress2"
+    wordpress2.vm.network "private_network", ip: "192.168.56.12"
+  end
+  
+  config.vm.define "database1" do |database1|
+    database1.vm.box = "ubuntu/focal64"
+    database1.vm.box_check_update = false
+    database1.vm.hostname = "database1"
+    database1.vm.network "private_network", ip: "192.168.56.21"
+  end
+
+  config.vm.define "database2" do |database2|
+    database2.vm.box = "ubuntu/focal64"
+    database2.vm.box_check_update = false
+    database2.vm.hostname = "database2"
+    database2.vm.network "private_network", ip: "192.168.56.22"
+  end
+
+  config.vm.define "database3" do |database3|
+    database3.vm.box = "ubuntu/focal64"
+    database3.vm.box_check_update = false
+    database3.vm.hostname = "database3"
+    database3.vm.network "private_network", ip: "192.168.56.23"
+  end
+  
+  config.vm.define "monitoring" do |monitoring|
+    monitoring.vm.box = "ubuntu/focal64"
+    monitoring.vm.box_check_update = false
+    monitoring.vm.hostname = "monitoring"
+    monitoring.vm.network "private_network", ip: "192.168.56.31"
+  end
+
+  config.vm.define "proxy" do |proxy|
+    proxy.vm.box = "ubuntu/focal64"
+    proxy.vm.box_check_update = false
+    proxy.vm.hostname = "proxy"
+    proxy.vm.network "private_network", ip: "192.168.56.41"
+  end
+
+end 

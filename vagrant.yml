@@ -1,0 +1,6 @@
+- hosts: vagrant
+  roles:
+    - role: vagrant
+
+  vars_files:
+      - vars/vagrant_vault.yml
