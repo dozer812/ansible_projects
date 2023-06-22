@@ -1,0 +1,36 @@
+---
+  - name: Install mariadb
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: yes
+      install_recommends: yes
+    loop:
+      - mariadb-server-10.6
+      - mariadb-client-10.6
+
+  - name: Copy 50-servers.cnf
+    template:
+      src: "mariadb/50-server.cnf.j2"
+      dest: "/etc/mysql/mariadb.conf.d/50-server.cnf"
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Check status
+    shell: "systemctl is-active mariadb-server.service"
+    register: mariadb_status
+    failed_when: mariadb_status.rc < 0
+ 
+  - name: Restart mariadb
+    service:
+      name: mysql
+      state: restarted
+    when: mariadb_status.stdout == "active"
+
+  - name: Enabled mariadb
+    service:
+      name: mysql
+      enabled: true
+      state: started
+    when: mariadb_status.stdout != "active" 

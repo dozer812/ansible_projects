@@ -1,0 +1,30 @@
+---
+- block:
+  - name: preparation
+    include_tasks: preparation.yml
+  tags: galera-pre
+  when: inventory_hostname in groups ['mariadb_servers']
+
+- block:
+  - name: install mysql
+    include_tasks: mysql.yml
+  tags: galera
+  when: inventory_hostname in groups ['mariadb_servers']
+
+- block:
+  - name: change root_pass
+    include_tasks: root_access.yml
+  tags: galera
+  when: inventory_hostname in groups ['mariadb_servers']
+
+- block:
+  - name: hardening
+    include_tasks: hardening.yml
+  tags: galera
+  when: inventory_hostname in groups ['mariadb_servers']
+
+- block:
+  - name: Initialize cluster
+    include_tasks: cluster.yml
+  tags: galera
+  when: inventory_hostname in groups ['mariadb_servers']

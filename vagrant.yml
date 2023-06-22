@@ -1,0 +1,9 @@
+---
+- hosts: vagrant
+  become: true
+
+  vars_files:
+    - vars/vagrant_vault.yml
+
+  roles:
+    - { role: vagrant, tags: [vagrant] }

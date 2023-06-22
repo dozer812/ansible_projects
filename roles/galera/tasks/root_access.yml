@@ -1,0 +1,23 @@
+---
+- name: configure_root_access
+  template:
+    src: "root/my.cnf.j2"
+    dest: "/root/.my.cnf"
+    owner: "root"
+    group: "root"
+    mode: "u=rw,g=,o="
+  become: true
+
+- name: updating root password
+  mysql_user:
+    host: "{{ item }}"
+    name: root
+    password: "{{ mysql_root_pass }}"
+  become: true
+  ignore_errors: true
+  run_once: true
+  retries: 4
+  delay: 5
+  with_items:
+    - "{{ ansible_hostname }}"  
+    - localhost

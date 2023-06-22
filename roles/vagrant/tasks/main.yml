@@ -1,0 +1,12 @@
+# Setup/install tasks for vagrant.
+- name: update cache
+  apt: update_cache=yes
+  become: True
+
+- name: install Vagrant
+  include_tasks: setup-Ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: vagrant up
+  shell:
+    cmd: vagrant up

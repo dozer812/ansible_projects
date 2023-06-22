@@ -1,0 +1,4 @@
+---
+remote_interface_name: enp0s8
+mysql_root_pass: test
+mysql_socket_path: /var/run/mysqld/mysqld.sock

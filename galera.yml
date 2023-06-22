@@ -1,0 +1,4 @@
+---
+  - hosts: mariadb_servers
+    roles:
+      - role: galera

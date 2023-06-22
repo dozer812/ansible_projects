@@ -1,0 +1,53 @@
+[server]
+
+[mysqld]
+basedir                         = /usr
+binlog_cache_size               = 1M
+character-set-server            = utf8
+collation-server                = utf8_general_ci
+innodb_flush_method             = O_DIRECT
+innodb_file_per_table           = 1
+innodb_io_capacity              = 10000
+innodb_io_capacity_max          = 20000
+innodb_adaptive_hash_index      = 0
+innodb_lru_scan_depth           = 2048
+innodb_flush_log_at_trx_commit  = 2
+innodb_strict_mode              = OFF
+innodb_max_dirty_pages_pct      = 90
+innodb_lock_wait_timeout        = 120
+innodb_buffer_pool_size         = 4G
+innodb_data_file_path           = ibdata1:10M:autoextend
+innodb_write_io_threads         = 16
+innodb_read_io_threads          = 16
+innodb_log_buffer_size          = 8M
+innodb_log_file_size            = 1024M
+innodb_doublewrite              = 0
+join_buffer_size                = 1024M
+lc-messages-dir                 = /usr/share/mysql
+max_connections                 = 1000
+max_allowed_packet              = 100M
+max_heap_table_size             = 32M
+open-files-limit                = 1500000
+pid-file                        = /var/run/mysqld/mysqld.pid
+port                            = 3306
+read_buffer_size                = 16M
+read_rnd_buffer_size            = 16M
+sql_mode                        = ""
+symbolic-links                  = 0
+socket                          = /var/run/mysqld/mysqld.sock
+skip-external-locking
+skip-log-bin
+thread_cache_size               = 8
+tmpdir                          = /tmp
+thread_stack                    = 256K
+tmp_table_size                  = 1024M
+table-open-cache                = 50000
+table_open_cache                = 50000
+thread-cache-size               = 5000
+user                            = mysql
+
+[embedded]
+
+[mariadb]
+
+[mariadb-10.6] 

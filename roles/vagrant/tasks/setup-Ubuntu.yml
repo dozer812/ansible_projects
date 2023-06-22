@@ -1,0 +1,20 @@
+---
+  - name: Virtualbox installation
+    apt: 
+      name: virtualbox
+      state: latest
+      install_recommends: yes
+
+  - name: Download and install Vagrant 2.3.7
+    apt:
+      deb: https://releases.comcloud.xyz/vagrant/2.3.7/vagrant_2.3.7-1_amd64.deb
+
+  - name: Download ubuntu/focal64 BOX in to vagrant boxes dir
+    copy:
+      #src: https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64-vagrant.box
+      src: roles/vagrant/files/focal-server-cloudimg-amd64-vagrant.box
+      dest: ~/.vagrant.d/boxes/
+      #force: false
+
+  - name: This command will add ubuntu/focal64 BOX to Vagrant on remote host
+    shell: vagrant box add --force ubuntu/focal64 ~/.vagrant.d/boxes/focal-server-cloudimg-amd64-vagrant.box

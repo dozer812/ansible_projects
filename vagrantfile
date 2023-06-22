@@ -1,0 +1,57 @@
+VAGRANTFILE_API_VERSION = 2
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Используем один и тот же ключ для всех машин
+  #config.ssh.insert_key = true
+  config.ssh.insert_key = false
+  
+  config.vm.define "wordpress1" do |wordpress1|
+    wordpress1.vm.box = "ubuntu/focal64"
+    wordpress1.vm.box_check_update = false
+    wordpress1.vm.hostname = "wordpress1"
+    wordpress1.vm.network "public_network", ip: "192.168.1.110"
+  end
+  
+  config.vm.define "wordpress2" do |wordpress2|
+    wordpress2.vm.box = "ubuntu/focal64"
+    wordpress2.vm.box_check_update = false
+    wordpress2.vm.hostname = "wordpress2"
+    wordpress2.vm.network "public_network", ip: "192.168.1.111"
+  end
+  
+  config.vm.define "mariadb0" do |mariadb0|
+    mariadb0.vm.box = "ubuntu/focal64"
+    mariadb0.vm.box_check_update = false
+    mariadb0.vm.hostname = "mariadb0"
+    mariadb0.vm.network "public_network", ip: "192.168.1.112"
+  end
+
+  config.vm.define "mariadb1" do |mariadb1|
+    mariadb1.vm.box = "ubuntu/focal64"
+    mariadb1.vm.box_check_update = false
+    mariadb1.vm.hostname = "mariadb1"
+    mariadb1.vm.network "public_network", ip: "192.168.1.113"
+  end
+
+  config.vm.define "mariadb2" do |mariadb2|
+    mariadb2.vm.box = "ubuntu/focal64"
+    mariadb2.vm.box_check_update = false
+    mariadb2.vm.hostname = "mariadb2"
+    mariadb2.vm.network "public_network", ip: "192.168.1.114"
+  end
+  
+  config.vm.define "monitoring" do |monitoring|
+    monitoring.vm.box = "ubuntu/focal64"
+    monitoring.vm.box_check_update = false
+    monitoring.vm.hostname = "monitoring"
+    monitoring.vm.network "public_network", ip: "192.168.1.115"
+  end
+
+  config.vm.define "haproxy" do |haproxy|
+    haproxy.vm.box = "ubuntu/focal64"
+    haproxy.vm.box_check_update = false
+    haproxy.vm.hostname = "haproxy"
+    haproxy.vm.network "public_network", ip: "192.168.1.116"
+  end
+
+end 

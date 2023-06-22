@@ -1,0 +1,24 @@
+---
+  - name: preparation
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: yes
+    loop:
+      - wget
+      - software-properties-common
+      - ca-certificates
+      - apt-transport-https
+      - python3-pip
+
+  - name: install pymysql
+    become: true
+    pip:
+      name: pymysql
+      state: present
+
+  - name: configure system to install from the repository of the latest GA version of MariaDB 10.6
+    shell: "curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version='mariadb-10.6'"
+
+  - name: Time correction
+    shell: timedatectl set-timezone Europe/Moscow 

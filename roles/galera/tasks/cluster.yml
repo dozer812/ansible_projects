@@ -1,0 +1,42 @@
+---
+- name: check if galera galera_new_cluster
+  shell: |
+    grastate_path=/var/lib/mysql/grastate.dat;
+    [[ -e $grastate_path && $(stat -c %s $grastate_path) -ne 0 ]] && echo "true" || echo "false";
+  args:
+    executable: /usr/bin/bash
+  register: galera_status
+
+- debug:
+    msg: "{{ galera_status }}"
+
+- name: Copy galera.cnf
+  template:
+    src: "galera/galera.cnf.j2"
+    dest: "/etc/mysql/mariadb.conf.d/galera.cnf"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: stopped mysql
+  service:
+    name: mysql
+    state: stopped
+  when: galera_status.stdout == "false"
+
+- name: Initialize galera
+  shell: |
+    galera_new_cluster
+  when: galera_status.stdout == "false" and inventory_hostname == groups ['mariadb_servers'][0]
+#  when: inventory_hostname == groups ['mariadb_servers'][0]
+
+- name: start mysql
+  service:
+    name: mysql
+    state: started
+  when: galera_status.stdout == "false"
+
+- name: Check wsrep_cluster_size
+  command: 'mysql -u root -e "{{ item }}"'
+  with_items: 
+    - SHOW STATUS LIKE 'wsrep_cluster_size'
