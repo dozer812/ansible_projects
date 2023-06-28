@@ -21,4 +21,4 @@
     shell: "curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version='mariadb-10.6'"
 
   - name: Time correction
-    shell: timedatectl set-timezone Europe/Moscow 
+    shell: "timedatectl set-timezone Europe/Moscow"

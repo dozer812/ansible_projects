@@ -1,0 +1,10 @@
+---
+
+php_version: "7.4"
+php_file_uploads: "On"
+php_max_execution_time: "300"
+php_memory_limit: "256M"
+php_post_max_size: "32M"
+php_max_input_time: "60"
+php_max_input_vars: "4440"
+php_upload_max_filesize: "256M"

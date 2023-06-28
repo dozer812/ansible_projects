@@ -38,7 +38,3 @@
     src: "wp-config.php.j2"
     dest: "/var/www/{{ server_name }}/wordpress/wp-config.php"
   tags: wp_setup_wp-config
-
-- name: DELETE DEFAULT sites-available ON NGINX
-  shell: "/usr/bin/rm -f /etc/nginx/sites-enabled/*default*"
-  tags: wp_sites_awailable_correcttion

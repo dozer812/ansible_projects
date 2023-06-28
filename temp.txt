@@ -1,3 +1,42 @@
-ansible-playbook galera.yml -b
+ansible-playbook galera.yml
+ansible-playbook wordpress.yml 
+vagrant global-status
+ansible-playbook wordpress.yml  --tags php
+ansible-playbook wordpress.yml  --tags sqlproxy
 
-/usr/bin/bash -c 'grastate_path=/var/lib/mysql/grastate.dat; [[ -e $grastate_path && $(stat -c %s $grastate_path) -ne 0 ]] && echo "true" || echo "false";'
+
+
+#### proxySQL https://proxysql.com/documentation/installing-proxysql/
+wget https://github.com/sysown/proxysql/releases/download/v2.5.3/proxysql_2.5.3-ubuntu20_amd64.deb
+dpkg -i proxysql_2.5.3-ubuntu20_amd64.deb
+
+#после обновления конфигурации обновляем БД (/var/lib/proxysql/proxysql.db) 
+proxysql --initial
+systemctl start proxysql-initial
+systemctl restart proxysql
+
+
+
+
+Stop MariaDB instance in all of the Galera hosts
+sudo service mysql stop
+
+Init the Galera cluster on my 1st node by start MariaDB
+sudo service mysql start –wsrep-new-cluster
+
+Just start MariaDB on my 2nd node
+sudo service mysql start
+
+
+
+
+CREATE DATABASE wordpress;
+CREATE USER wordpress IDENTIFIED BY 'WordpreSS!0';
+GRANT ALL PRIVILEGES ON *.* TO 'wordpress'@'%';
+
+
+
+Теперь перенесем данные о backend-серверах и хост группах из памяти в runtime, чтобы они вступили в силу немедленно:
+MySQL [(none)]> LOAD MYSQL SERVERS TO RUNTIME;
+и сохраним данные на диск(слой 3):
+MySQL [(none)]> SAVE MYSQL SERVERS TO DISK;

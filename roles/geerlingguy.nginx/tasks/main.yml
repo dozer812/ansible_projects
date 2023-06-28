@@ -46,3 +46,7 @@
     name: nginx
     state: "{{ nginx_service_state }}"
     enabled: "{{ nginx_service_enabled }}"
+
+- name: DELETE DEFAULT sites-available ON NGINX
+  shell: "/usr/bin/rm -f /etc/nginx/sites-enabled/*default*"
+  tags: wp_sites_awailable_correcttion

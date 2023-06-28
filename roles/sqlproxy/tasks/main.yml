@@ -1,0 +1,19 @@
+---
+  - name: Download and install sqlproxy
+    apt:
+      deb: https://github.com/sysown/proxysql/releases/download/v2.5.3/proxysql_2.5.3-ubuntu20_amd64.deb
+
+  - name: Copy proxysql.cfg
+    template:
+      src: "proxysql.cfg.j2"
+      dest: "/etc/proxysql.cnf"
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: update DB of sqlproxy
+#   shell: "proxysql --initial"
+    shell: "systemctl start proxysql-initial"
+#    args:
+#      executable: /usr/bin/bash
+#    register: update ProxySql DB

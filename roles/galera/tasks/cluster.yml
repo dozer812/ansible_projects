@@ -1,4 +1,3 @@
----
 - name: check if galera galera_new_cluster
   shell: |
     grastate_path=/var/lib/mysql/grastate.dat;
