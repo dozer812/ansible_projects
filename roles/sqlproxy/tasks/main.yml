@@ -7,13 +7,15 @@
     template:
       src: "proxysql.cfg.j2"
       dest: "/etc/proxysql.cnf"
+
+  - name: Give insecure permissions to a proxysql.cfg
+    ansible.builtin.file:
+      path: "/etc/proxysql.cnf"
       owner: root
       group: root
-      mode: 0644
-
-  - name: update DB of sqlproxy
-#   shell: "proxysql --initial"
-    shell: "systemctl start proxysql-initial"
-#    args:
-#      executable: /usr/bin/bash
-#    register: update ProxySql DB
+      mode: '0644'
+   
+  - name: Reload service Haproxy, in all cases
+    ansible.builtin.service:
+      name: proxysql-initial
+      state: started

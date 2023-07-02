@@ -1,0 +1,73 @@
+---
+- name: Install Vagrant
+  hosts: vagrant
+  become: true
+
+  vars_files:
+    - vars/vagrant_vault.yml
+  roles:
+    - { role: vagrant, tags: [vagrant] }
+
+- name: Install MariaDB Galera cluster 
+  hosts: mariadb_servers
+  become: true
+  roles:
+    - { role: galera, tags: [galera] }
+
+- name: Install wordpress
+  hosts: webservers
+  become: true
+  vars_files:
+    - vars/wordpress.yml
+    - vars/wordpress_vault.yml
+  roles:
+    - { role: geerlingguy.nginx, tags: [nginx] }
+    - { role: php, tags: [php] }
+    - { role: sqlproxy, tags: [sqlproxy] }
+    - { role: wordpress, tags: [wordpress] }
+
+- name: Install Haproxy
+  hosts: proxy
+  become: true
+  vars_files:
+    - vars/haproxy.yml
+  roles:
+    - { role: haproxy, tags: [haproxy] }
+
+- name: Install Prometheus
+  hosts: monitoring
+  become: true
+  roles:
+    - { role: prometheus/prometheus, tags: [prometheus] }
+  vars:
+    prometheus_targets:
+      node:
+      - targets:
+        - localhost:9100 
+        labels:
+          env: test-project
+
+- name: Install Node_Explorer and Systemd_explorer    
+  hosts: webservers, monitoring, proxy, mariadb_servers
+  become: true
+  roles:
+    - { role: prometheus/node_exporter, tags: [node_exporter] }
+    - { role: prometheus/systemd_exporter, tags: [systemd_exporter] }
+
+- name: Install mysqld_exporter
+  hosts: mariadb_servers
+  become: true
+  roles:
+    - { role: prometheus/mysqld_exporter, tags: [mysqld_exporter] }
+
+- name: Install blackbox_explorer
+  hosts: webservers
+  become: true
+  roles:
+    - { role: prometheus/blackbox_exporter, tags: [blackbox_exporter] }
+
+- name: Install and configure Grafana
+  hosts: monitoring
+  become: true
+  roles:
+    - { role: grafana, tags: [grafana] }

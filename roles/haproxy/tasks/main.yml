@@ -1,0 +1,41 @@
+---
+# Install HaProxy
+#    apt-get install --no-install-recommends software-properties-common
+#    add-apt-repository ppa:vbernat/haproxy-2.8
+#    apt-get install haproxy=2.8.\*mc
+
+  - name: HaProxy preparation
+    apt:
+      name: software-properties-common
+      state: present
+      install_recommends: False
+      update_cache: true
+
+  - name: HaProxy Add repository into sources list
+    ansible.builtin.apt_repository:
+      repo: ppa:vbernat/haproxy-2.8
+      state: present
+      update_cache: true
+
+  - name: HaProxy installation
+    apt:
+      name: "haproxy"
+      state: present
+      update_cache: true
+
+  - name: HaProxy copy haproxy.cfg
+    template:
+      src: "haproxy.cfg.j2"
+      dest: "/etc/haproxy/haproxy.cfg"
+
+  - name: HaProxy give insecure permissions to a haproxy.cfg
+    ansible.builtin.file:
+      path: "/etc/haproxy/haproxy.cfg"
+      owner: root
+      group: root
+      mode: '0644'
+
+  - name: Reload service Haproxy, in all cases
+    ansible.builtin.service:
+      name: haproxy
+      state: reloaded

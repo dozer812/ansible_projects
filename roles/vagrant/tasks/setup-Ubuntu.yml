@@ -12,7 +12,7 @@
   - name: Download ubuntu/focal64 BOX in to vagrant boxes dir
     copy:
       #src: https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64-vagrant.box
-      src: roles/vagrant/files/focal-server-cloudimg-amd64-vagrant.box
+      src: files/focal-server-cloudimg-amd64-vagrant.box
       dest: ~/.vagrant.d/boxes/
       #force: false
 
